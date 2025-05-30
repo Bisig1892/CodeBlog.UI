@@ -18,6 +18,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   model?: BlogPost;
   categories$?: Observable<Category[]>;
   selectedCategories?: string[];
+  isImageModalVisible: boolean = false;
   
   routeSubcription?: Subscription;
   updateBlogPostSubscription?: Subscription;
@@ -81,6 +82,14 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  openImageModal(): void {
+    this.isImageModalVisible = true;
+  }
+
+  closeImageModal(): void {
+    this.isImageModalVisible = false;
   }
 
   ngOnDestroy(): void {
