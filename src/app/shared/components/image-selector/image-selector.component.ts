@@ -25,6 +25,10 @@ export class ImageSelectorComponent implements OnInit{
     this.getImages();
   }
 
+  selectImage(image: BlogImage): void {
+    this.imageService.selectImage(image);
+  }
+
   onFileUploadChange(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     this.file = element.files?.[0];
