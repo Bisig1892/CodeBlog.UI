@@ -1,28 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ImageService } from './image.service';
-import { Observable } from 'rxjs';
-import { BlogImage } from './models/blog-image.model';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-image-selector',
   templateUrl: './image-selector.component.html',
   styleUrls: ['./image-selector.component.css']
 })
-export class ImageSelectorComponent implements OnInit{
+export class ImageSelectorComponent {
 
   private file?: File;
   fileName: string = '';
   title: string = '';
-  images$?: Observable<BlogImage[]>
-
-  @ViewChild('form', {static: false}) imageUploadForm?: NgForm
 
   constructor(private imageService: ImageService) {
 
-  }
-  ngOnInit(): void {
-    this.getImages();
   }
 
   selectImage(image: BlogImage): void {
@@ -40,15 +31,20 @@ export class ImageSelectorComponent implements OnInit{
       this.imageService.uploadImage(this.file, this.fileName, this.title)
       .subscribe({
         next: (response) => {
-          this.imageUploadForm?.resetForm();
-          this.getImages();
+          console.log('Upload success:', response);
+        },
+        error: (err) => {
+          console.error('Upload error:', err);
+          if (err.error && typeof err.error === 'object') {
+            for (const key in err.error) {
+              console.error(`${key}: ${err.error[key]}`);
+            }
+          } else {
+            console.error('Raw error:', err.error);
+          }
         }
       });
     }
-  }
-
-  private getImages() {
-    this.images$ = this.imageService.getAllImages();
   }
 
 }
