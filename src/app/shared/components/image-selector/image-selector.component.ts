@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ImageService } from './image.service';
+import { BlogImage } from './models/blog-image.model';
+
 
 @Component({
   selector: 'app-image-selector',
@@ -14,6 +16,10 @@ export class ImageSelectorComponent {
 
   constructor(private imageService: ImageService) {
 
+  }
+
+  selectImage(image: BlogImage): void {
+    this.imageService.selectImage(image);
   }
 
   onFileUploadChange(event: Event): void {
